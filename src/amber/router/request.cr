@@ -8,7 +8,7 @@ class HTTP::Request
 
   # Required for the `matched_route` method
   @matched_route : Amber::Router::RoutedResult(Amber::Route)?
-  
+
   # Required for the `params` method
   @params : Amber::Router::Params?
 
