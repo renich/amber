@@ -69,7 +69,7 @@ module Amber
       end
 
       private def build_node(http_verb : Symbol | String, resource : String)
-        "#{http_verb.to_s.downcase}#{resource}"
+        "#{http_verb.to_s.upcase}#{resource}"
       end
 
       private def has_content_ext(str)
