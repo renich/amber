@@ -19,7 +19,7 @@ module Amber::Recipes
     def initialize(@name, @recipe, actions)
       parse_actions(actions)
       add_routes :web, <<-ROUTES
-        #{@actions.map { |action, verb| %Q(#{verb} "/#{@name}/#{action}", #{class_name}Controller, :#{action}) }.join("\n    ")}
+        #{@actions.join("\n    ") { |action, verb| %Q(#{verb} "/#{@name}/#{action}", #{class_name}Controller, :#{action}) }}
       ROUTES
 
       @action_names = @actions.map { |action, _| action }
