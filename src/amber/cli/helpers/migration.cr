@@ -44,7 +44,7 @@ module Amber::CLI::Helpers::Migration
   end
 
   private def create_table_fields_sql
-    @fields.map { |field| create_table_field_sql(field) }.join(",\n  ")
+    @fields.join(",\n  ") { |field| create_table_field_sql(field) }
   end
 
   private def reference_fields

@@ -42,7 +42,7 @@ module Sentry
         when 0 then "echo"
         when 1 then command_array.first
         else
-          command_array.map { |c| "(#{c})" }.join(" && ")
+          command_array.join(" && ") { |c| "(#{c})" }
         end
       end
     end

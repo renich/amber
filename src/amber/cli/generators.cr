@@ -326,7 +326,7 @@ module Teeplate
     end
 
     private def generate_display_name
-      @name.underscore.gsub('-', '_').split('_').map(&.capitalize).join(' ')
+      @name.underscore.gsub('-', '_').split('_').join(' ', &.capitalize)
     end
   end
 end
