@@ -1,0 +1,1 @@
+## 2026-06-16 - Add labels to auth form generators for accessibility\n**Learning:** Generator templates must include accessible markup like labels and ids for form inputs since generated code creates a baseline that many users will not remember or know how to fix.\n**Action:** Always check newly generated code/templates for basic a11y requirements.
