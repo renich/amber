@@ -11,23 +11,23 @@ module Amber
             resources "hello", HelloController
           end
 
-          router.match("GET", "/hello").path.should eq "get/hello"
-          router.match("HEAD", "/hello").path.should eq "head/hello"
-          router.match("OPTIONS", "/hello").path.should eq "options/hello"
-          router.match("GET", "/hello/2").path.should eq "get/hello/:id"
-          router.match("HEAD", "/hello/2").path.should eq "head/hello/:id"
-          router.match("OPTIONS", "/hello/2").path.should eq "options/hello/:id"
-          router.match("GET", "/hello/new").path.should eq "get/hello/new"
-          router.match("HEAD", "/hello/new").path.should eq "head/hello/new"
-          router.match("OPTIONS", "/hello/new").path.should eq "options/hello/new"
-          router.match("GET", "/hello/2/edit").path.should eq "get/hello/:id/edit"
-          router.match("HEAD", "/hello/2/edit").path.should eq "head/hello/:id/edit"
-          router.match("OPTIONS", "/hello/2/edit").path.should eq "options/hello/:id/edit"
-          router.match("OPTIONS", "/hello/1").path.should eq "options/hello/:id"
-          router.match("PUT", "/hello/1").path.should eq "put/hello/:id"
-          router.match("PATCH", "/hello/1").path.should eq "patch/hello/:id"
-          router.match("DELETE", "/hello/1").path.should eq "delete/hello/:id"
-          router.match("POST", "/hello").path.should eq "post/hello"
+          router.match("GET", "/hello").path.should eq "GET/hello"
+          router.match("HEAD", "/hello").path.should eq "HEAD/hello"
+          router.match("OPTIONS", "/hello").path.should eq "OPTIONS/hello"
+          router.match("GET", "/hello/2").path.should eq "GET/hello/:id"
+          router.match("HEAD", "/hello/2").path.should eq "HEAD/hello/:id"
+          router.match("OPTIONS", "/hello/2").path.should eq "OPTIONS/hello/:id"
+          router.match("GET", "/hello/new").path.should eq "GET/hello/new"
+          router.match("HEAD", "/hello/new").path.should eq "HEAD/hello/new"
+          router.match("OPTIONS", "/hello/new").path.should eq "OPTIONS/hello/new"
+          router.match("GET", "/hello/2/edit").path.should eq "GET/hello/:id/edit"
+          router.match("HEAD", "/hello/2/edit").path.should eq "HEAD/hello/:id/edit"
+          router.match("OPTIONS", "/hello/2/edit").path.should eq "OPTIONS/hello/:id/edit"
+          router.match("OPTIONS", "/hello/1").path.should eq "OPTIONS/hello/:id"
+          router.match("PUT", "/hello/1").path.should eq "PUT/hello/:id"
+          router.match("PATCH", "/hello/1").path.should eq "PATCH/hello/:id"
+          router.match("DELETE", "/hello/1").path.should eq "DELETE/hello/:id"
+          router.match("POST", "/hello").path.should eq "POST/hello"
         end
 
         context "when specifying constraints" do
@@ -65,12 +65,12 @@ module Amber
               resources "hello", HelloController, only: [:index, :update]
             end
 
-            router.match("GET", "/hello").path.should eq "get/hello"
+            router.match("GET", "/hello").path.should eq "GET/hello"
             router.match("GET", "/hello/2").found?.should be_false
             router.match("GET", "/hello/new").found?.should be_false
             router.match("GET", "/hello/2/edit").found?.should be_false
-            router.match("PUT", "/hello/1").path.should eq "put/hello/:id"
-            router.match("PATCH", "/hello/1").path.should eq "patch/hello/:id"
+            router.match("PUT", "/hello/1").path.should eq "PUT/hello/:id"
+            router.match("PATCH", "/hello/1").path.should eq "PATCH/hello/:id"
             router.match("DELETE", "/hello/1").found?.should be_false
           end
 
@@ -82,12 +82,12 @@ module Amber
             end
 
             router.match("GET", "/hello").found?.should be_false
-            router.match("GET", "/hello/2").path.should eq "get/hello/:id"
-            router.match("GET", "/hello/new").path.should eq "get/hello/new"
-            router.match("GET", "/hello/2/edit").path.should eq "get/hello/:id/edit"
+            router.match("GET", "/hello/2").path.should eq "GET/hello/:id"
+            router.match("GET", "/hello/new").path.should eq "GET/hello/new"
+            router.match("GET", "/hello/2/edit").path.should eq "GET/hello/:id/edit"
             router.match("PUT", "/hello/1").found?.should be_false
             router.match("PATCH", "/hello/1").found?.should be_false
-            router.match("DELETE", "/hello/1").path.should eq "delete/hello/:id"
+            router.match("DELETE", "/hello/1").path.should eq "DELETE/hello/:id"
           end
         end
       end
@@ -126,7 +126,7 @@ module Amber
 
           route = router.match_by_request(request)
           route.found?.should eq true
-          route.path.should eq "get/checkout/:name"
+          route.path.should eq "GET/checkout/:name"
         end
 
         it "registers routes with constraints as Hash" do
@@ -172,7 +172,7 @@ module Amber
           request = HTTP::Request.new("GET", "/posts/55-hello")
           route = router.match_by_request(request)
           route.found?.should eq true
-          route.path.should eq "get/posts/:slug"
+          route.path.should eq "GET/posts/:slug"
         end
       end
 

@@ -35,7 +35,7 @@ module Amber
     end
 
     def trail
-      "#{verb.to_s.downcase}#{scope}#{resource}"
+      "#{verb.to_s.upcase}#{scope}#{resource}"
     end
 
     def call(context)
