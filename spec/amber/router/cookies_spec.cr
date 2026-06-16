@@ -7,7 +7,7 @@ module Amber::Router
 
       cookies.set "user_name", "david"
 
-      cookie_header(cookies).should eq "user_name=david; path=/"
+      cookie_header(cookies).should eq "user_name=david; path=/; SameSite=Lax"
     end
 
     it "reads a cookie" do
@@ -24,7 +24,7 @@ module Amber::Router
       cookies.set "user_name", "Jamie"
 
       cookies.permanent.set "user_name", "Jamie"
-      cookie_header(cookies).should eq "user_name=Jamie; path=/; expires=#{HTTP.format_time(20.years.from_now)}"
+      cookie_header(cookies).should eq "user_name=Jamie; path=/; expires=#{HTTP.format_time(20.years.from_now)}; SameSite=Lax"
     end
 
     it "reads a permanent cookie" do
@@ -40,7 +40,7 @@ module Amber::Router
 
       cookies.set "that & guy", "foo & bar => baz"
 
-      cookie_header(cookies).should eq "that+%26+guy=foo+%26+bar+%3D%3E+baz; path=/"
+      cookie_header(cookies).should eq "that+%26+guy=foo+%26+bar+%3D%3E+baz; path=/; SameSite=Lax"
     end
 
     it "sets the cookie with expiration" do
@@ -50,7 +50,7 @@ module Amber::Router
 
       cookies.set "user_name", "david", expires: expiry_time
 
-      cookie_header(cookies).should eq "user_name=david; path=/; expires=#{HTTP.format_time(expiry_time)}"
+      cookie_header(cookies).should eq "user_name=david; path=/; expires=#{HTTP.format_time(expiry_time)}; SameSite=Lax"
     end
 
     it "sets the cookie with http_only" do
@@ -58,7 +58,7 @@ module Amber::Router
 
       cookies.set "user_name", "david", http_only: true
 
-      cookie_header(cookies).should eq "user_name=david; path=/; HttpOnly"
+      cookie_header(cookies).should eq "user_name=david; path=/; HttpOnly; SameSite=Lax"
     end
 
     it "sets the cookie with secure if the jar is secure" do
@@ -67,7 +67,7 @@ module Amber::Router
 
       cookies.set "user_name", "david", secure: true
 
-      cookie_header(cookies).should eq "user_name=david; path=/; Secure"
+      cookie_header(cookies).should eq "user_name=david; path=/; Secure; SameSite=Lax"
     end
 
     it "does not set the cookie with secure if the jar is insecure" do
@@ -85,7 +85,7 @@ module Amber::Router
 
       cookies.set "user_name", "david", secure: false
 
-      cookie_header(cookies).should eq "user_name=david; path=/"
+      cookie_header(cookies).should eq "user_name=david; path=/; SameSite=Lax"
     end
 
     it "sets multiple cookies" do
@@ -96,7 +96,7 @@ module Amber::Router
       cookies.set "login", "XJ-122"
 
       cookies.size.should eq 2
-      cookie_header(cookies).should eq "user_name=david; path=/; expires=#{HTTP.format_time(expiry_time)},login=XJ-122; path=/"
+      cookie_header(cookies).should eq "user_name=david; path=/; expires=#{HTTP.format_time(expiry_time)}; SameSite=Lax,login=XJ-122; path=/; SameSite=Lax"
     end
 
     context "encrypted cookies" do
