@@ -15,6 +15,6 @@ module Amber::Router::Cookies
 
     abstract def get(name)
 
-    abstract def set(name : String, value : String, path : String = "/", expires : Time? = nil, domain : String? = nil, secure : Bool = false, http_only : Bool = false, extension : String? = nil)
+    abstract def set(name : String, value : String, path : String = "/", expires : Time? = nil, domain : String? = nil, secure : Bool = false, http_only : Bool = false, extension : String? = nil, samesite : HTTP::Cookie::SameSite? = HTTP::Cookie::SameSite::Lax)
   end
 end

@@ -7,8 +7,9 @@ module Amber::Router::Cookies
       @store.get(name)
     end
 
-    def set(name : String, value : String, path : String = "/", expires : Time? = nil, domain : String? = nil, secure : Bool = false, http_only : Bool = false, extension : String? = nil)
+    def set(name : String, value : String, path : String = "/", expires : Time? = nil, domain : String? = nil, secure : Bool = false, http_only : Bool = false, extension : String? = nil, samesite : HTTP::Cookie::SameSite? = HTTP::Cookie::SameSite::Lax)
       cookie = HTTP::Cookie.new(name, value, path, 20.years.from_now, domain, secure, http_only, extension)
+      cookie.samesite = samesite if samesite
       @store[name] = cookie
     end
   end
