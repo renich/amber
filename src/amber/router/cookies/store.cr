@@ -89,13 +89,15 @@ module Amber::Router::Cookies
     def set(name : String, value : String, path : String = "/",
             expires : Time? = nil, domain : String? = nil,
             secure : Bool = false, http_only : Bool = false,
-            extension : String? = nil)
+            extension : String? = nil, samesite : HTTP::Cookie::SameSite? = nil)
       name = URI.encode_www_form(name)
       value = URI.encode_www_form(value)
 
       if @cookies[name]? != value || expires
         @cookies[name] = value
-        @set_cookies[name] = HTTP::Cookie.new(name, value, path, expires, domain, secure, http_only, extension)
+        cookie = HTTP::Cookie.new(name, value, path, expires, domain, secure, http_only, extension)
+        cookie.samesite = samesite if samesite
+        @set_cookies[name] = cookie
         @delete_cookies.delete(name) if @delete_cookies.has_key?(name)
       end
     end
