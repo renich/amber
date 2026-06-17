@@ -15,9 +15,10 @@ module Amber::Router::Cookies
 
     def set(name : String, value : String, path : String = "/", expires : Time? = nil,
             domain : String? = nil, secure : Bool = false,
-            http_only : Bool = false, extension : String? = nil)
+            http_only : Bool = false, extension : String? = nil, samesite : HTTP::Cookie::SameSite? = nil)
       cookie = HTTP::Cookie.new(name, Base64.strict_encode(@encryptor.encrypt(value, sign: true)),
         path, expires, domain, secure, http_only, extension)
+      cookie.samesite = samesite if samesite
       raise Exceptions::CookieOverflow.new if cookie.value.bytesize > MAX_COOKIE_SIZE
       @store[name] = cookie
     end
