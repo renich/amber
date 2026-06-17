@@ -62,10 +62,13 @@ module Amber
       end
 
       def match(http_verb, resource) : RoutedResult(Route)
-        if has_content_ext(resource)
-          ext_size = ::File.extname(resource).size
-          result = @routes.find build_node(http_verb, resource[0...-ext_size])
-          return result if result.found?
+        dot_index = resource.rindex('.')
+        if dot_index
+          ext = resource[dot_index + 1..]
+          if Controller::Helpers::Responders::Content::SUPPORTED_FORMATS.includes?(ext)
+            result = @routes.find build_node(http_verb, resource[0...dot_index])
+            return result if result.found?
+          end
         end
         @routes.find build_node(http_verb, resource)
       end
@@ -75,21 +78,10 @@ module Amber
       end
 
       private def has_content_ext(str)
-        if str.includes?('.')
-          ext = ::File.extname(str)
-          if !ext.empty?
-            case ext
-            when ".html", ".json", ".txt", ".text", ".xml", ".js"
-              true
-            else
-              false
-            end
-          else
-            false
-          end
-        else
-          false
-        end
+        dot_index = str.rindex('.')
+        return false unless dot_index
+        ext = str[dot_index + 1..]
+        Controller::Helpers::Responders::Content::SUPPORTED_FORMATS.includes?(ext)
       end
     end
   end

@@ -14,6 +14,7 @@ module Amber::Controller::Helpers
         js:   "text/javascript",
       }
 
+      SUPPORTED_FORMATS = Set.new(TYPE.keys.map(&.to_s))
       TYPE_EXT_REGEX         = /\.(#{TYPE.keys.join("|")})$/
       ACCEPT_SEPARATOR_REGEX = /,|,\s/
 
@@ -90,13 +91,14 @@ module Amber::Controller::Helpers
 
     private def extension_request_type
       path = request.path
-      if path.includes?('.')
-        ext = ::File.extname(path)
-        if !ext.empty?
-          key = ext[1..-1]
-          return [Content::TYPE[key]] if Content::TYPE.has_key?(key)
+      dot_index = path.rindex('.')
+      if dot_index
+        ext = path[dot_index + 1..]
+        if Content::SUPPORTED_FORMATS.includes?(ext)
+          return [Content::TYPE[ext]]
         end
       end
+      nil
     end
 
     private def accepts_request_type

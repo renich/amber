@@ -647,12 +647,10 @@ module Amber
 
       def self.get_request_format(request)
         path = request.path
-        if path.includes?('.')
-          ext = ::File.extname(path)
-          if !ext.empty?
-            key = ext[1..-1]
-            return key if MIME_TYPES.has_key?(key)
-          end
+        dot_index = path.rindex('.')
+        if dot_index
+          ext = path[dot_index + 1..]
+          return ext if MIME_TYPES.has_key?(ext)
         end
 
         accept = request.headers[FORMAT_HEADER]?
