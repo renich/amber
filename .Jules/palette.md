@@ -1,0 +1,3 @@
+## 2026-06-18 - Explicit form labels in auth templates
+**Learning:** Amber's default authentication template scaffolds (ECR/Slang) previously generated forms without explicit label-to-input associations. While placeholders existed, lacking `for` attributes and matching `id` tags makes forms inaccessible to screen readers.
+**Action:** When modifying them or related scaffolding, explicitly add `<label for="...">` tags matching `<input id="...">` attributes to ensure screen reader accessibility. I have added these labels using the standard Bootstrap `form-label` class to the session, signup and edit templates.
