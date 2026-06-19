@@ -103,7 +103,8 @@ module Amber
       end
 
       protected def subscribed_to_topic?(topic)
-        @subscription_manager.subscriptions.keys.includes?(topic.to_s)
+        # ⚡ Bolt: Use O(1) hash `has_key?` instead of O(N) array allocation/search via `.keys.includes?`
+        @subscription_manager.subscriptions.has_key?(topic.to_s)
       end
 
       protected def disconnect!
