@@ -1,0 +1,4 @@
+## 2024-05-24 - CSRF Token Timing Attack
+**Vulnerability:** CSRF tokens were compared using the standard `==` string equality operator, making it susceptible to timing attacks. An attacker could potentially measure response times to guess the CSRF token character by character.
+**Learning:** `Crypto::Subtle.constant_time_compare` should always be used to compare security-sensitive secrets like CSRF tokens instead of the standard `==` operator, because it executes in constant time to prevent timing attacks. In Crystal, empty strings must also be checked explicitly, as calling `.to_s` on `nil` or passing empty strings could lead to unexpected positive matches with `constant_time_compare("", "") == true`.
+**Prevention:** Use `Crypto::Subtle.constant_time_compare` for all comparisons involving secrets (tokens, signatures, digests). Always ensure tokens being compared are non-empty strings before running the comparison.
