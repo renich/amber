@@ -1,0 +1,3 @@
+## 2024-06-21 - Explicit Form Labels for Authentication Scaffolds
+**Learning:** Amber's default authentication template scaffolds (ECR/Slang) generate forms without explicit label-to-input associations. While placeholders are used, relying purely on placeholders is an accessibility anti-pattern as they disappear when typing and are not consistently read by screen readers.
+**Action:** When modifying them or related scaffolding, explicitly add `<label for="...">` tags matching `<input id="...">` attributes to ensure screen reader accessibility, matching Bootstrap 5's default `form-label` convention.
