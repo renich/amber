@@ -1,0 +1,3 @@
+## 2024-05-15 - Auth Templates Missing Explicit Labels
+**Learning:** The default authentication scaffolds (ECR/Slang) generated forms without explicit `<label for="[id]">` associations to their corresponding `<input id="[id]">` elements. This is a common accessibility issue that makes it difficult for screen readers to associate the text label with the form field. It also reduces the clickable hit area for users (clicking the label should focus the input).
+**Action:** When modifying or creating new scaffolding templates, always explicitly add `<label for="...">` tags matching the `<input id="...">` attributes to ensure screen reader accessibility and improve overall usability.
