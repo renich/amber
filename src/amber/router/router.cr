@@ -49,7 +49,8 @@ module Amber
       end
 
       def socket_route_defined?(request)
-        @socket_routes.map(&.[:path]).includes?(request.path)
+        # Performance: avoid intermediate array allocation from map by using any?
+        @socket_routes.any? { |route| route[:path] == request.path }
       end
 
       def match_by_request(request)
