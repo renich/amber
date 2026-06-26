@@ -1,0 +1,4 @@
+## 2024-05-18 - [Timing Attack in CSRF Token Comparison]
+**Vulnerability:** The `valid_token?` method in `Amber::Pipe::CSRF::RefreshableToken` used the standard `==` string equality operator to compare the request token against the session token.
+**Learning:** Standard string comparison operators terminate early upon finding the first mismatched character. This introduces a timing side-channel that could theoretically allow an attacker to guess the valid CSRF token character-by-character by observing response times. Furthermore, passing `""` and `""` to `constant_time_compare` evaluates to true, so care must be taken to ensure non-empty strings.
+**Prevention:** Always use `Crypto::Subtle.constant_time_compare` for comparing secrets, such as CSRF tokens or cryptographic hashes, and ensure the inputs are explicitly verified to be non-empty.
