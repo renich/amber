@@ -1,0 +1,4 @@
+## 2024-05-18 - Prevent CSRF Bypass with constant_time_compare
+**Vulnerability:** CSRF token comparison was vulnerable to timing attacks using `==`, and a blind conversion to `constant_time_compare` risks a critical bypass.
+**Learning:** In Crystal, `Crypto::Subtle.constant_time_compare("", "")` evaluates to `true`. If `request_token(context)` or `token(context)` resolves to `nil` and is cast via `.to_s`, it results in an empty string `""`. Consequently, an attacker sending an empty CSRF token against an empty session token can trivially bypass the check.
+**Prevention:** When refactoring string equality to `constant_time_compare`, always explicitly verify that both tokens are strings AND not empty before comparing them. Ensure `is_valid = req.is_a?(String) && sess.is_a?(String) && !req.empty? && !sess.empty? && constant_time_compare(...)`.
