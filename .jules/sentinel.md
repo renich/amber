@@ -1,0 +1,4 @@
+## 2024-05-24 - Fixed CSRF timing attack vulnerability
+**Vulnerability:** CSRF tokens in the RefreshableToken module were being compared using the standard equality operator (`==`), making the application vulnerable to timing attacks. Also the token could potentially bypass the check if it was evaluated as an empty string.
+**Learning:** `==` performs byte-by-byte comparison and returns immediately on the first mismatch, allowing an attacker to iteratively guess the token based on response time. In Crystal, empty strings can bypass certain equality checks if not explicitly checked for.
+**Prevention:** Always use `Crypto::Subtle.constant_time_compare` for comparing sensitive tokens, secrets, or hashes. Additionally, ensure explicit checks for valid string types and non-empty values before performing the comparison.
