@@ -64,7 +64,8 @@ module Amber::CLI
       private def set_route(route_string)
         return if route_string.to_s.lstrip.starts_with?("#")
         if route_match = route_string.to_s.match(VERB_ROUTE_REGEX)
-          return unless ACTION_MAPPING.keys.includes?(route_match[1]?.to_s)
+          # ⚡ Bolt: Use has_key? instead of keys.includes? for O(1) time complexity and no array allocation
+          return unless ACTION_MAPPING.has_key?(route_match[1]?.to_s)
           build_route(route_match)
         elsif route_match = route_string.to_s.match(WEBSOCKET_ROUTE_REGEX)
           build_route(route_match)
