@@ -1,0 +1,4 @@
+## 2026-06-30 - Fix CSRF token timing attack and bypass vulnerability
+**Vulnerability:** CSRF token verification in `Amber::Pipe::CSRF`'s `RefreshableToken` strategy used `==` for comparison, leaving it vulnerable to timing attacks. Furthermore, a `nil` token stringified to `""` due to loose type validation, meaning `"" == ""` would return `true` if an attacker supplied an empty CSRF header when the session had an empty CSRF token.
+**Learning:** `Crypto::Subtle.constant_time_compare` must always be used when verifying tokens or secrets in Crystal. In addition, when extracting user input that shouldn't be empty, type validation (`is_a?(String)`) and length validation (`!empty?`) must be strictly applied before running the timing-safe comparison to prevent empty-string bypasses.
+**Prevention:** Always perform strong type and empty-string checks before falling through to `Crypto::Subtle.constant_time_compare` for equality of any secret or sensitive material.
