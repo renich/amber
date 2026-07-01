@@ -1,0 +1,3 @@
+## 2024-05-24 - Missing Form Labels in Scaffold Templates
+**Learning:** Amber's default authentication template scaffolds (ECR/Slang) for Session, Profile Editing, and Registration lack explicit `<label>` tags with `for` attributes associated with corresponding input `id` attributes. This violates WCAG accessibility guidelines as screen readers cannot programmatically associate the text label with the form control, making it difficult for visually impaired users to understand what data is required.
+**Action:** When modifying or reviewing scaffolded form templates in Amber, explicitly check for and add `<label for="[input_id]">` tags and matching `<input id="[input_id]">` attributes for all form fields.
