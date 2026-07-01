@@ -59,7 +59,13 @@ module Amber
         end
 
         def valid_token?(context)
-          (request_token(context) == token(context)) && context.session.delete(CSRF_KEY)
+          req_token = request_token(context)
+          tok = token(context)
+
+          return false unless req_token.is_a?(String) && !req_token.empty?
+          return false unless tok.is_a?(String) && !tok.empty?
+
+          Crypto::Subtle.constant_time_compare(req_token, tok) && context.session.delete(CSRF_KEY)
         end
       end
 
