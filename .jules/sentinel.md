@@ -1,0 +1,4 @@
+## 2024-05-18 - [Fix CSRF Authentication Bypass Risk]
+**Vulnerability:** The CSRF token validation logic in `valid_token?` (under `RefreshableToken`) used the standard equality operator (`==`) rather than a constant time comparison. Furthermore, it didn't verify that the session and request tokens were non-empty strings.
+**Learning:** In Crystal, if standard equality is used on `nil.to_s`, it produces an empty string `""`. If both the session and request lack tokens, comparing them without type and size validation can lead to `"" == ""` or `""` matching an unexpectedly empty token state, bypassing CSRF protection entirely.
+**Prevention:** Always explicitly assert type (`is_a?(String)`) and emptiness (`!empty?`) before calling `Crypto::Subtle.constant_time_compare`. Never rely solely on `.to_s` string coercion for security tokens.
