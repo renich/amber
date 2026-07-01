@@ -49,7 +49,7 @@ module Amber
       end
 
       def socket_route_defined?(request)
-        @socket_routes.map(&.[:path]).includes?(request.path)
+        @socket_routes.any? { |r| r[:path] == request.path }
       end
 
       def match_by_request(request)
