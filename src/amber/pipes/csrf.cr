@@ -74,7 +74,9 @@ module Amber
 
             unmasked = TokenOperations.unmask(decoded_request)
             session_token = Base64.decode(real_session_token(context))
-            return Crypto::Subtle.constant_time_compare(unmasked, session_token)
+            if unmasked.size > 0 && session_token.size > 0
+              return Crypto::Subtle.constant_time_compare(unmasked, session_token)
+            end
           end
           false
         rescue Base64::Error

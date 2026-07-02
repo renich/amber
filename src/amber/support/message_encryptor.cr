@@ -20,7 +20,8 @@ module Amber::Support
     def verify_and_decrypt(value : Bytes) : Bytes
       signature = value[value.size - @signature_size, @signature_size]
       data_iv = value[0, value.size - @signature_size]
-      if Crypto::Subtle.constant_time_compare(sign_bytes(data_iv), signature)
+      sb = sign_bytes(data_iv)
+      if sb.size > 0 && signature.size > 0 && Crypto::Subtle.constant_time_compare(sb, signature)
         decrypt(data_iv)
       else
         raise "Invalid Encryption!"
