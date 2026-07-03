@@ -1,0 +1,4 @@
+## 2026-07-03 - Fix CSRF timing attack and MessageEncryptor unhandled exceptions
+**Vulnerability:** CSRF `valid_token?` used `==` for token comparison which is vulnerable to timing attacks. `MessageEncryptor#verify_and_decrypt` and `decrypt` could raise `IndexError` 500 crashes instead of graceful failures if provided input was too short.
+**Learning:** `Crypto::Subtle.constant_time_compare` MUST be used for comparing tokens, secrets, or hashes. Additionally, `constant_time_compare` evaluates to `true` when comparing two empty strings/bytes. Slicing arrays or bytes that are shorter than expected raises an `IndexError`.
+**Prevention:** Always use `Crypto::Subtle.constant_time_compare(str1, str2)` for sensitive comparisons, and ALWAYS ensure both variables have a size > 0 before comparison. Validate the length of byte arrays/strings before slicing or referencing index offsets.
