@@ -104,11 +104,13 @@ module Amber
       end
 
       def valid_headers?(request, headers)
-        request_headers = request.headers[Headers::REQUEST_HEADERS]?
-        return false if request_headers.nil? || request_headers.empty?
+        request_headers_raw = request.headers[Headers::REQUEST_HEADERS]?
+        return false if request_headers_raw.nil? || request_headers_raw.empty?
 
+        # Optimize by splitting once and avoiding intermediate array/string allocations with downcase
+        request_headers = request_headers_raw.split(',')
         headers.any? do |header|
-          request_headers.downcase.split(',').includes? header.downcase
+          request_headers.any? { |req_header| req_header.strip.compare(header, case_insensitive: true) == 0 }
         end
       end
     end
