@@ -103,7 +103,8 @@ module Amber
       end
 
       protected def subscribed_to_topic?(topic)
-        @subscription_manager.subscriptions.keys.includes?(topic.to_s)
+        # Performance: Use has_key? instead of keys.includes? to prevent Array allocation and O(N) lookup
+        @subscription_manager.subscriptions.has_key?(topic.to_s)
       end
 
       protected def disconnect!
