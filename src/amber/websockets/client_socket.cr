@@ -103,7 +103,8 @@ module Amber
       end
 
       protected def subscribed_to_topic?(topic)
-        @subscription_manager.subscriptions.keys.includes?(topic.to_s)
+        # Avoid allocating an array of keys for an O(1) existence check
+        @subscription_manager.subscriptions.has_key?(topic.to_s)
       end
 
       protected def disconnect!
