@@ -1,0 +1,4 @@
+## 2026-07-05 - Fix CRITICAL Out-of-Bounds Indexing DoS in Cryptography Support
+**Vulnerability:** The `MessageVerifier` and `MessageEncryptor` classes lack proper input length validation before array indexing (`split` result access without size verification) and bytes slicing (`value[value.size - @signature_size, @signature_size]` without checking if `value.size < @signature_size`). If an attacker sends a malformed session token, these actions trigger a fatal `IndexError` crashing the application (DoS).
+**Learning:** Crystal's slice/unpacking with negative or incorrectly sized indexes will throw an unhandled `IndexError` unless properly trapped or prevented. Input bounds checking is critical before parsing and unpacking cryptography payloads.
+**Prevention:** Always explicitly validate that arbitrary payloads/bytes objects are of the expected size before doing any negative-offset slicing or unpacking operations.
