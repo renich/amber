@@ -1,0 +1,3 @@
+## 2026-07-05 - Auth & Scaffold Form Template Missing Labels
+**Learning:** Amber's default scaffolding (both ECR and Slang) generates inputs (like `<input>` and `text_field`) without explicitly associated `label` tags or `id` attributes. This breaks screen-reader accessibility for basic auth forms and model data-entry forms.
+**Action:** When working on framework-level template generation or updating default forms, ensure that inputs have an explicit `id="..."` and a corresponding `<label for="...">` or use the framework's `label(:field)` helper to automatically associate the label with the input.
