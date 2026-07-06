@@ -1,0 +1,3 @@
+## 2024-05-24 - Array Map vs Any and Hash Keys vs Has Key
+**Learning:** Checking for elements in an array by mapping it to a different property and calling `.includes?` creates unnecessary intermediate arrays. Similarly, checking if a hash has a key by calling `.keys.includes?` creates an unnecessary intermediate array and makes lookups O(n) instead of O(1).
+**Action:** Use `.any?` instead of `.map(...).includes?` to prevent intermediate array allocations and allow for early returns. Use `.has_key?` instead of `.keys.includes?` to prevent intermediate array allocations and improve lookups to O(1).
