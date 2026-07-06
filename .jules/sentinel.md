@@ -1,0 +1,4 @@
+## 2024-05-24 - Unhandled IndexError DoS in Crystal Unpacking and Slicing
+**Vulnerability:** `MessageVerifier` and `MessageEncryptor` crashed with `IndexError` (leading to 500 ISE or process crash/DoS) when fed malformed short inputs or payloads missing the `--` delimiter.
+**Learning:** Crystal's multiple assignment (e.g., `data, digest = signed_message.split("--")`) strictly assumes the array size matches the variables and raises `IndexError` instead of assigning `nil` if the array is too short. Similarly, slicing a `Bytes` array with calculated negative start indices throws `IndexError`.
+**Prevention:** Always validate array sizes (e.g., using `split("--", 2)` and checking `parts.size == 2`) before destructuring, and check payload sizes before slicing byte arrays with calculated indices.
