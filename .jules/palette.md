@@ -1,0 +1,3 @@
+## 2026-07-08 - Explicit Label Associations in Scaffolding Forms
+**Learning:** Automatically generated authentication and form scaffolding views often rely solely on placeholder text for inputs, which violates accessibility standards for screen readers and label clicks. Even with some labels present, missing id or improper for attributes detach the label from the field.
+**Action:** When working on scaffolded views or templates, always ensure inputs have explicit label-for bindings or use the native label(:field_name) helpers so the emitted HTML remains completely accessible to all users out of the box.
