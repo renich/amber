@@ -11,9 +11,7 @@ module Amber::Support
     end
 
     def verified(signed_message : String)
-      parts = signed_message.split("--")
-      return nil unless parts.size == 2
-      data, digest = parts[0], parts[1]
+      data, digest = signed_message.split("--")
       if valid_message?(data, digest)
         String.new(decode(data))
       end
@@ -27,9 +25,7 @@ module Amber::Support
     end
 
     def verify_raw(signed_message : String) : Bytes
-      parts = signed_message.split("--")
-      raise Exceptions::InvalidSignature.new unless parts.size == 2
-      data, digest = parts[0], parts[1]
+      data, digest = signed_message.split("--")
       if valid_message?(data, digest)
         decode(data)
       else
