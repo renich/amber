@@ -65,7 +65,7 @@ module Amber::CLI
             output.should contain pipeline
           end
 
-          (web_default_plugs + static_default_plugs).each do |plug|
+          (web_default_plugs + api_default_plugs + static_default_plugs).each do |plug|
             output.should contain plug
           end
 
